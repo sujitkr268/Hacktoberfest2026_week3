@@ -135,6 +135,11 @@ week_3/
 - **No lock-in, no spend:** switch providers by changing two env vars; run it for free forever with local weights.
 - **Auditable behavior:** the prompt that decides what "deserves a reply" is open code — inspect it, fork it, tune it.
 
+## Security notes
+
+- Built and tested on **Next.js 16.4.2**, which patches the October 2026 advisories (unauthenticated RCE in the Image Optimization API, DoS via Server Actions, RCE in `use cache` typed-array returns). Keep Next patched when you update dependencies.
+- `npm audit` reports 5 "high" findings that all trace to one **dev-only** dependency chain (`braces` → `micromatch` → `fast-glob` → `eslint-config-next`, a lint glob parser). None of it ships to the browser or runtime; the only suggested fix downgrades `eslint-config-next` to v14, which would break this project. Re-check when upstream ships a fix.
+
 ## License
 
 MIT — sloth-speed, open-source, no strings attached.
