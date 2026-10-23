@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+:root {
+  /* Night-sky palette: deep navy surfaces with warm sloth-amber accents */
+  --background: #0a0e1a;
+  --foreground: #e9eef7;
+  --surface: #111827;
+  --surface-raised: #161f33;
+  --border: #24304b;
+  --muted: #94a0b8;
+  --accent: #ffb86b;
+  --accent-strong: #f59e0b;
+  --accent-soft: #3b2f1d;
+  --mint: #6ee7b7;
+  --mint-soft: #123229;
+  --peach: #fca5a5;
+  --danger: #f87171;
+  --focus: #fbbf24;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-ui-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-mint: var(--mint);
+  --color-mint-soft: var(--mint-soft);
+  --color-peach: var(--peach);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* Visible, high-contrast focus rings (a11y) */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Ambient scene: starfield + slow aurora glow behind the hero
+   -------------------------------------------------------------------------- */
+
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 34rem at 85% -10%, rgba(246, 166, 108, 0.14), transparent 65%),
+    radial-gradient(48rem 32rem at 8% 12%, rgba(94, 118, 255, 0.13), transparent 62%),
+    radial-gradient(52rem 30rem at 55% 105%, rgba(110, 231, 183, 0.09), transparent 66%);
+  animation: auroraDrift 16s ease-in-out infinite alternate;
+}
+
+@keyframes auroraDrift {
+  from { transform: translateY(0) scale(1); opacity: 0.85; }
+  to   { transform: translateY(-4%) scale(1.08); opacity: 1; }
+}
+
+.star {
+  position: fixed;
+  z-index: -1;
+  border-radius: 9999px;
+  background: #dbe7ff;
+  opacity: 0.55;
+  animation: twinkle 3.2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.18; transform: scale(0.85); }
+  50%      { opacity: 0.75; transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   Sleepy sloth loading scene
+   -------------------------------------------------------------------------- */
+
+.sloth-float {
+  animation: floatY 3.6s ease-in-out infinite;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-14px) rotate(3deg); }
+}
+
+.zzz {
+  position: absolute;
+  font-weight: 700;
+  color: var(--mint);
+  opacity: 0;
+  animation: zzzDrift 3s ease-out infinite;
+}
+
+.zzz-2 { animation-delay: 1s; }
+.zzz-3 { animation-delay: 2s; }
+
+@keyframes zzzDrift {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.7); }
+  25%  { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(26px, -46px) scale(1.15); }
+}
+
+/* Emoji dashes across the loading screen */
+.dash-emoji {
+  display: inline-block;
+  animation: dash 2.6s linear infinite;
+}
+
+@keyframes dash {
+  from { transform: translateX(0); opacity: 0; }
+  15%  { opacity: 1; }
+  to   { transform: translateX(620%); opacity: 0.9; }
+}
+
+/* --------------------------------------------------------------------------
+   Result entrances & micro-interactions
+   -------------------------------------------------------------------------- */
+
+.fade-up {
+  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pop-in {
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Gentle glow for the digest headline card */
+.digest-glow {
+  box-shadow:
+    0 0 0 1px rgba(255, 184, 107, 0.18),
+    0 24px 60px -28px rgba(245, 158, 11, 0.28),
+    0 8px 26px -18px rgba(0, 0, 0, 0.6);
+}
+
+/* Slow shimmer for the "reading" progress bar */
+.shimmer {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 184, 107, 0.25) 20%,
+    rgba(255, 184, 107, 0.8) 50%,
+    rgba(255, 184, 107, 0.25) 80%
+  );
+  background-size: 240% 100%;
+  animation: shimmerSlide 1.6s linear infinite;
+}
+
+@keyframes shimmerSlide {
+  from { background-position: 120% 0; }
+  to   { background-position: -120% 0; }
+}
+
+.breathe {
+  animation: breathe 5s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .aurora,
+  .star,
+  .sloth-float,
+  .zzz,
+  .dash-emoji,
+  .fade-up,
+  .pop-in,
+  .shimmer,
+  .breathe {
+    animation: none !important;
+  }
+}
